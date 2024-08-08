@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CRUD Application</title>
+</head>
+<body>
+    <h1>Create User</h1>
+    <form method="POST" action="controller.php">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="submit" name="create" value="Create">
+    </form>
+
+    <h1>Update User</h1>
+    <form method="POST" action="controller.php">
+        <input type="hidden" name="id" placeholder="ID" required>
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="submit" name="update" value="Update">
+    </form>
+
+    <h1>Delete User</h1>
+    <form method="POST" action="controller.php">
+        <input type="hidden" name="id" placeholder="ID" required>
+        <input type="submit" name="delete" value="Delete">
+    </form>
+
+    <h1>Users List</h1>
+    <ul>
+        <?php foreach ($users as $user): ?>
+            <li>ID: <?php echo htmlspecialchars($user['id']); ?> | Name: <?php echo htmlspecialchars($user['name']); ?> | Email: <?php echo htmlspecialchars($user['email']); ?></li>
+        <?php endforeach; ?>
+    </ul>
+</body>
+</html>
