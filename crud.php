@@ -1,3 +1,4 @@
+
 <?php
 
 // Classe User
@@ -144,9 +145,9 @@ $userRepository->create($user3);
             </tbody>
         </table>
 
-        <?php if (isset($_
-<?php if (isset($_GET['id'])) { 
-            $user = $userRepository->read($_GET['id']); ?>
+        <?php if (isset($_GET['id'])) { 
+            $user = $userRepository
+$user = $userRepository->read($_GET['id']); ?>
             <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                 <input type="hidden" name="id" value="<?php echo $user->getId(); ?>">
                 <div class="mb-3">
