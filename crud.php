@@ -25,6 +25,7 @@ class User {
         $this->email = $email;
     }
 }
+
 // Classe UserRepository
 class UserRepository {
     private $users;
@@ -62,17 +63,89 @@ class UserRepository {
         }
     }
 }
+
 // Criar um repositório de usuários
 $userRepository = new UserRepository();
+
 // Criar usuários
 $user1 = new User(1, 'João', 'joao@example.com');
 $user2 = new User(2, 'Maria', 'maria@example.com');
 $user3 = new User(3, 'Pedro', 'pedro@example.com');
+
 // Adicionar usuários ao repositório
 $userRepository->create($user1);
 $userRepository->create($user2);
 $userRepository->create($user3);
 ?>
+
+<?php if (isset($_GET['id'])) { 
+            $user = $userRepository->read($_GET['id']); ?>
+            <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                <input type="hidden" name="id" value="<?php echo $user->getId(); ?>">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nome</label>
+                    <input type="text" name="name" id="name" class="form-control" value="<?php echo $user->getName(); ?>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-mail</label>
+                    <input type="email" name="email" id="email" class="form-control" value="<?php echo $user->getEmail(); ?>" required>
+                </div>
+                <button type="submit" name="update" class="btn btn-primary">Atualizar</button>
+            </form>
+        <?php } ?>
+    </div>
+</body>
+</html>
+
+<?php
+if (isset($_POST['create'])) {
+    $user = new User(null, $_POST['name'], $_POST['email']);
+    $userRepository->create($user);
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit;
+}
+if (isset($_POST['update'])) {
+    $user = new User($_POST['id'], $_POST['name'], $_POST['email']);
+    $userRepository->update($user);
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit;
+}
+if (isset($_GET['delete'])) {
+    $userRepository->delete($_GET['id']);
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit;
+}
+?>
+  <?php foreach ($userRepository->readAll() as $user) { ?>
+                    <tr>
+                        <td><?php echo $user->getId(); ?></td>
+                        <td><?php echo $user->getName(); ?></td>
+                        <td><?php echo $user->getEmail(); ?></td>
+                        <td>
+                            <a href="<?php echo $_SERVER['PHP_SELF']; ?>?id=<?php echo $user->getId(); ?>" class="btn btn-secondary">Editar</a>
+                            <a href="<?php echo $_SERVER['PHP_SELF']; ?>?id=<?php echo $user->getId(); ?>&delete=true" class="btn btn-danger">Deletar</a>
+                        </td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+        <?php if (isset($_GET['id'])) { 
+            $user = $userRepository
+            Verify
+
+Open In Editor
+Edit
+Copy code
+<?php foreach ($userRepository->readAll() as $user) { ?>
+                    <tr>
+                        <td><?php echo $user->getId(); ?></td>
+                        <td><?php echo $user->getName(); ?></td>
+                        <td><?php echo $user->getEmail(); ?></td>
+                        <td>
+                            <a href="<?php echo $_SERVER['PHP_SELF']; ?>?id=<?php echo $user->getId(); ?>" class="btn btn-secondary">Editar</a>
+                            <a href="<?php echo $_SERVER['PHP_SELF']; ?>?id=<?php echo $user->getId(); ?>&delete=true" class="btn btn-danger">Deletar</a>
+                        </td>
+                    </tr>
                 <?php } ?>
             </tbody>
         </table>
@@ -91,25 +164,3 @@ $userRepository->create($user3);
                 <button type="submit" name="update" class="btn btn-primary">Atualizar</button>
             </form>
         <?php } ?>
-        <?php
-        if (isset($_POST['create'])) {
-            $user = new User(null, $_POST['name'], $_POST['email']);
-            $userRepository->create($user);
-            header('Location: ' . $_SERVER['PHP_SELF']);
-            exit;
-        }
-        if (isset($_POST['update'])) {
-            $user = new User($_POST['id'], $_POST['name'], $_POST['email']);
-            $userRepository->update($user);
-            header('Location: ' . $_SERVER['PHP_SELF']);
-            exit;
-        }
-        if (isset($_GET['delete'])) {
-            $userRepository->delete($_GET['id']);
-            header('Location: ' . $_SERVER['PHP_SELF']);
-            exit;
-        }
-        ?>
-    </div>
-</body>
-</html>
