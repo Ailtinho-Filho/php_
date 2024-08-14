@@ -144,26 +144,49 @@ $userRepository->create($user3);
             </tbody>
         </table>
 
-        <!-- Formulário de edição de usuário -->
-        <?php if
-                <!-- Formulário de edição de usuário -->
-                <?php if (isset($_GET['id'])) { ?>
-                    <?php $user = $userRepository->read($_GET['id']); ?>
-                    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                        <input type="hidden" name="id" value="<?php echo $user->getId(); ?>">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Nome</label>
-                            <input type="text" name="name" id="name" class="form-control" value="<?php echo $user->getName(); ?>" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">E-mail</label>
-                            <input type="email" name="email" id="email" class="form-control" value="<?php echo $user->getEmail(); ?>" required>
-                        </div>
-                        <button type="submit" name="update" class="btn btn-primary">Atualizar</button>
-                    </form>
-                <?php } ?>
-        
-                <!-- Processamento de requisições -->
-                <?php
-                if (isset($_POST['create'])) {
-                    $user = new User(null, $_POST['name
+        <?php if (isset($_GET['id'])) { ?>
+            <?php $
+
+
+<?php if (isset($_GET['id'])) { ?>
+    <?php $user = $userRepository->read($_GET['id']); ?>
+    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+        <input type="hidden" name="id" value="<?php echo $user->getId(); ?>">
+        <div class="mb-3">
+            <label for="name" class="form-label">Nome</label>
+            <input type="text" name="name" id="name" class="form-control" value="<?php echo $user->getName(); ?>" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">E-mail</label>
+            <input type="email" name="email" id="email" class="form-control" value="<?php echo $user->getEmail(); ?>" required>
+        </div>
+        <button type="submit" name="update" class="btn btn-primary">Atualizar</button>
+    </form>
+<?php } ?>
+
+<!-- Processamento de requisições -->
+<?php
+if (isset($_POST['create'])) {
+    $user = new User(null, $_POST['name'], $_POST['email']);
+    $userRepository->create($user);
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit;
+}
+
+if (isset($_POST['update'])) {
+    $user = new User($_POST['id'], $_POST['name'], $_POST['email']);
+    $userRepository->update($user);
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit;
+}
+
+if (isset($_GET['delete'])) {
+    $userRepository->delete($_GET['id']);
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit;
+}
+?>
+
+</div>
+</body>
+</html>
